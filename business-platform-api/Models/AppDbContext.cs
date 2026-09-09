@@ -11,11 +11,13 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<BusinessProfile> BusinessProfiles { get; set; } = null!;
+    public DbSet<ContactDetails> ContactDetails { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new BusinessProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new ContactDetailsConfiguration());
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -8,7 +8,6 @@ public interface IBusinessProfileService
 {
     Task<ApiResponse<BusinessProfileDto>> GetProfileAsync();
     Task<ApiResponse<BusinessBrandingDto>> GetBrandingAsync();
-    Task<ApiResponse<BusinessContactDto>> GetContactAsync();
 }
 
 public class BusinessProfileService : IBusinessProfileService
@@ -40,15 +39,5 @@ public class BusinessProfileService : IBusinessProfileService
 
         var dto = _mapper.Map<BusinessBrandingDto>(profile);
         return ApiResponse<BusinessBrandingDto>.Success(dto);
-    }
-
-    public async Task<ApiResponse<BusinessContactDto>> GetContactAsync()
-    {
-        var profile = await _repository.GetActiveProfileAsync();
-        if (profile == null)
-            return ApiResponse<BusinessContactDto>.Failure("Business profile not found.");
-
-        var dto = _mapper.Map<BusinessContactDto>(profile);
-        return ApiResponse<BusinessContactDto>.Success(dto);
     }
 }

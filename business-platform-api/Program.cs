@@ -23,6 +23,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericReposito
 builder.Services.AddScoped(typeof(IGenericCrudService<,,,,>), typeof(GenericCrudService<,,,,>));
 builder.Services.AddScoped<IBusinessProfileRepository, BusinessProfileRepository>();
 builder.Services.AddScoped<IBusinessProfileService, BusinessProfileService>();
+builder.Services.AddScoped<IContactDetailsService, ContactDetailsService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

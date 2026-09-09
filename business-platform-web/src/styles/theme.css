@@ -1,0 +1,161 @@
+/**
+ * ============================================================
+ * CENTRALIZED THEME / DESIGN TOKEN SYSTEM
+ * ============================================================
+ * This is the SINGLE FILE to change when customizing the visual
+ * identity for a different landscaping business.
+ *
+ * All color values, spacing, typography scale, and border radius
+ * tokens live here as CSS custom properties.
+ *
+ * Components reference these variables — never raw color values.
+ * ============================================================
+ */
+
+:root {
+  /* ----------------------------------------------------------
+   * BRAND COLORS
+   * Change these to match any landscaping business identity.
+   * ---------------------------------------------------------- */
+
+  /* Primary: deep forest green — main brand color */
+  --color-primary:         #2d6a4f;
+  --color-primary-light:   #40916c;
+  --color-primary-dark:    #1b4332;
+  --color-primary-fg:      #ffffff;
+
+  /* Secondary: warm earth/terracotta */
+  --color-secondary:       #6b4226;
+  --color-secondary-light: #8b5e3c;
+  --color-secondary-dark:  #4a2d18;
+  --color-secondary-fg:    #ffffff;
+
+  /* Accent: golden/amber — CTAs, highlights */
+  --color-accent:          #d4a017;
+  --color-accent-light:    #e8b923;
+  --color-accent-dark:     #a07a10;
+  --color-accent-fg:       #1a1a1a;
+
+  /* ----------------------------------------------------------
+   * NEUTRAL / SURFACE COLORS
+   * ---------------------------------------------------------- */
+  --color-background:      #f9fafb;
+  --color-surface:         #ffffff;
+  --color-surface-alt:     #f3f4f6;
+  --color-border:          #e5e7eb;
+  --color-border-strong:   #d1d5db;
+
+  /* ----------------------------------------------------------
+   * TEXT COLORS
+   * ---------------------------------------------------------- */
+  --color-text:            #111827;
+  --color-text-secondary:  #374151;
+  --color-muted:           #6b7280;
+  --color-muted-light:     #9ca3af;
+  --color-text-on-dark:    #f9fafb;
+
+  /* ----------------------------------------------------------
+   * SECTION BACKGROUND VARIANTS
+   * Used to alternate section backgrounds for visual rhythm.
+   * ---------------------------------------------------------- */
+  --color-section-light:   #f9fafb;
+  --color-section-mid:     #f0fdf4;  /* soft green tint */
+  --color-section-dark:    #1b4332;  /* dark forest — CTA sections */
+  --color-section-earth:   #fdf3e3;  /* warm earth — about section */
+
+  /* ----------------------------------------------------------
+   * HERO / OVERLAY
+   * ---------------------------------------------------------- */
+  --hero-overlay-start:    rgba(27, 67, 50, 0.75);
+  --hero-overlay-end:      rgba(27, 67, 50, 0.40);
+  --hero-min-height:       92vh;
+
+  /* ----------------------------------------------------------
+   * CARD / COMPONENT TOKENS
+   * ---------------------------------------------------------- */
+  --card-radius:           0.75rem;
+  --card-shadow:           0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --card-shadow-hover:     0 10px 25px -5px rgba(0,0,0,0.12), 0 8px 10px -6px rgba(0,0,0,0.08);
+
+  /* ----------------------------------------------------------
+   * BUTTON TOKENS
+   * ---------------------------------------------------------- */
+  --btn-primary-bg:        var(--color-primary);
+  --btn-primary-hover:     var(--color-primary-dark);
+  --btn-primary-fg:        var(--color-primary-fg);
+
+  --btn-accent-bg:         var(--color-accent);
+  --btn-accent-hover:      var(--color-accent-dark);
+  --btn-accent-fg:         var(--color-accent-fg);
+
+  --btn-outline-border:    var(--color-primary-fg);
+  --btn-outline-hover-bg:  rgba(255,255,255,0.15);
+  --btn-outline-fg:        var(--color-primary-fg);
+
+  /* ----------------------------------------------------------
+   * NAVBAR TOKENS
+   * ---------------------------------------------------------- */
+  --navbar-bg:             rgba(255, 255, 255, 0.97);
+  --navbar-bg-scrolled:    rgba(255, 255, 255, 1);
+  --navbar-border:         var(--color-border);
+  --navbar-height:         4.5rem;
+  --navbar-text:           var(--color-text);
+  --navbar-link-hover:     var(--color-primary);
+  --navbar-link-active:    var(--color-primary);
+
+  /* ----------------------------------------------------------
+   * TYPOGRAPHY
+   * ---------------------------------------------------------- */
+  --font-sans:             'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display:          'Georgia', 'Times New Roman', serif;
+
+  --text-xs:    0.75rem;
+  --text-sm:    0.875rem;
+  --text-base:  1rem;
+  --text-lg:    1.125rem;
+  --text-xl:    1.25rem;
+  --text-2xl:   1.5rem;
+  --text-3xl:   1.875rem;
+  --text-4xl:   2.25rem;
+  --text-5xl:   3rem;
+  --text-6xl:   3.75rem;
+
+  /* ----------------------------------------------------------
+   * SPACING / LAYOUT
+   * ---------------------------------------------------------- */
+  --section-padding-y:     5rem;
+  --section-padding-x:     1.5rem;
+  --container-max-width:   80rem;
+
+  /* ----------------------------------------------------------
+   * TRANSITIONS
+   * ---------------------------------------------------------- */
+  --transition-fast:       150ms ease;
+  --transition-base:       250ms ease;
+  --transition-slow:       400ms ease;
+
+  /* ----------------------------------------------------------
+   * FOCUS / ACCESSIBILITY
+   * ---------------------------------------------------------- */
+  --focus-ring-color:      rgba(45, 106, 79, 0.5);
+  --focus-ring-width:      3px;
+}
+
+/* ----------------------------------------------------------
+ * REDUCED MOTION
+ * Disable animations for users who prefer it.
+ * ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-base: 0ms;
+    --transition-slow: 0ms;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

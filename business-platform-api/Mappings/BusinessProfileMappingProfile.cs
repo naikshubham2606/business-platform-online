@@ -10,6 +10,6 @@ public class BusinessProfileMappingProfile : Profile
     {
         CreateMap<BusinessProfile, BusinessProfileDto>();
         CreateMap<BusinessProfile, BusinessBrandingDto>();
-        CreateMap<BusinessProfile, BusinessContactDto>();
+        CreateMap<ContactDetails, ContactDetailsDto>();
     }
 }

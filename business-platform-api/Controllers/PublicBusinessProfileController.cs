@@ -9,10 +9,12 @@ namespace business_platform_api.Controllers;
 public class PublicBusinessProfileController : ControllerBase
 {
     private readonly IBusinessProfileService _service;
+    private readonly IContactDetailsService _contactService;
 
-    public PublicBusinessProfileController(IBusinessProfileService service)
+    public PublicBusinessProfileController(IBusinessProfileService service, IContactDetailsService contactService)
     {
         _service = service;
+        _contactService = contactService;
     }
 
     [HttpGet("business-profile")]
@@ -36,11 +38,11 @@ public class PublicBusinessProfileController : ControllerBase
     }
 
     [HttpGet("contact")]
-    [ProducesResponseType(typeof(ApiResponse<BusinessContactDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ApiResponse<BusinessContactDto>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse<ContactDetailsDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<ContactDetailsDto>), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetContact()
     {
-        var response = await _service.GetContactAsync();
+        var response = await _contactService.GetCurrentContactDetailsAsync();
         if (!response.IsSuccess) return NotFound(response);
         return Ok(response);
     }
