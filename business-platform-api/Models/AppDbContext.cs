@@ -30,18 +30,29 @@ public class AppDbContext : DbContext
     public DbSet<QuoteRequestService> QuoteRequestServices { get; set; } = null!;
     public DbSet<QuoteRequestImage> QuoteRequestImages { get; set; } = null!;
 
+    public DbSet<Project> Projects { get; set; } = null!;
+    public DbSet<ProjectImage> ProjectImages { get; set; } = null!;
+    public DbSet<ProjectService> ProjectServices { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        // Business Profile & Contact
         modelBuilder.ApplyConfiguration(new BusinessProfileConfiguration());
         modelBuilder.ApplyConfiguration(new ContactDetailsConfiguration());
+
+        // Services
         modelBuilder.ApplyConfiguration(new ServiceConfiguration());
         modelBuilder.ApplyConfiguration(new ServiceImageConfiguration());
+
+        // About Us
         modelBuilder.ApplyConfiguration(new AboutUsConfiguration());
         modelBuilder.ApplyConfiguration(new AboutUsHighlightConfiguration());
         modelBuilder.ApplyConfiguration(new AboutUsValueConfiguration());
         modelBuilder.ApplyConfiguration(new AboutUsStatisticConfiguration());
 
+        // Master Data
         modelBuilder.ApplyConfiguration(new PropertyTypeConfiguration());
         modelBuilder.ApplyConfiguration(new WorkAreaTypeConfiguration());
         modelBuilder.ApplyConfiguration(new MeasurementUnitConfiguration());
@@ -49,9 +60,15 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ContactMethodConfiguration());
         modelBuilder.ApplyConfiguration(new QuoteRequestStatusConfiguration());
 
+        // Quote Requests
         modelBuilder.ApplyConfiguration(new QuoteRequestConfiguration());
         modelBuilder.ApplyConfiguration(new QuoteRequestServiceConfiguration());
         modelBuilder.ApplyConfiguration(new QuoteRequestImageConfiguration());
+
+        // Projects
+        modelBuilder.ApplyConfiguration(new ProjectConfiguration());
+        modelBuilder.ApplyConfiguration(new ProjectImageConfiguration());
+        modelBuilder.ApplyConfiguration(new ProjectServiceConfiguration());
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

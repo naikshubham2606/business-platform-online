@@ -238,5 +238,61 @@ public static class DbInitializer
         }
 
         await context.SaveChangesAsync();
+        // 10. Projects
+        if (!await context.Projects.AnyAsync())
+        {
+            var p1 = Guid.NewGuid();
+            var p2 = Guid.NewGuid();
+            var p3 = Guid.NewGuid();
+            var p4 = Guid.NewGuid();
+            var p5 = Guid.NewGuid();
+
+            var projects = new List<Project>
+            {
+                new() { Id = p1, Title = "Villa Garden Transformation", Slug = "villa-garden-transformation", ShortDescription = "Complete outdoor transformation with lawn development, planting and irrigation.", Description = "The project included extensive landscape design, comprehensive lawn care, and smart irrigation installation to create a lush, self-sustaining garden for a private villa.", Location = "North Goa", CompletionDate = new DateTime(2025, 11, 15, 0, 0, 0, DateTimeKind.Utc), IsFeatured = true, IsActive = true, DisplayOrder = 1, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = p2, Title = "Resort Landscape Development", Slug = "resort-landscape-development", ShortDescription = "Expansive tropical landscape creation for a boutique resort.", Description = "Working closely with resort architects, we delivered full-scale landscape design, tree and plant care, and ongoing garden maintenance to establish a mature tropical aesthetic.", Location = "South Goa", CompletionDate = new DateTime(2026, 2, 10, 0, 0, 0, DateTimeKind.Utc), IsFeatured = true, IsActive = true, DisplayOrder = 2, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = p3, Title = "Residential Lawn Upgrade", Slug = "residential-lawn-upgrade", ShortDescription = "A fast and efficient lawn care and maintenance overhaul.", Description = "This residential project focused on rescuing a damaged lawn. We provided aeration, overseeding, and set up a new irrigation schedule. Now, it's a perfect green space for the family.", Location = "Panjim", CompletionDate = new DateTime(2025, 9, 5, 0, 0, 0, DateTimeKind.Utc), IsFeatured = false, IsActive = true, DisplayOrder = 3, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = p4, Title = "Commercial Office Greenery", Slug = "commercial-office-greenery", ShortDescription = "Low-maintenance planting and design for a corporate office entrance.", Description = "We provided landscape design and tree/plant care specifically selecting drought-resistant and low-maintenance plants suitable for a busy corporate environment.", Location = "Porvorim", CompletionDate = new DateTime(2026, 5, 20, 0, 0, 0, DateTimeKind.Utc), IsFeatured = false, IsActive = true, DisplayOrder = 4, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = p5, Title = "Terrace Garden Development", Slug = "terrace-garden-development", ShortDescription = "Transforming a bare rooftop into a vibrant terrace garden.", Description = "A challenging but rewarding project installing custom planters, an automated micro-irrigation system, and selecting plants that thrive in high sunlight and wind exposure.", Location = "Margao", CompletionDate = new DateTime(2025, 12, 1, 0, 0, 0, DateTimeKind.Utc), IsFeatured = true, IsActive = true, DisplayOrder = 5, CreatedDateTime = now, UpdatedDateTime = now }
+            };
+
+            await context.Projects.AddRangeAsync(projects);
+
+            // Project Images
+            var projectImages = new List<ProjectImage>
+            {
+                new() { Id = 1, ProjectId = p1, ImageUrl = "https://picsum.photos/id/11/800/600", AltText = "Villa garden after transformation", IsPrimary = true, DisplayOrder = 1, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = 2, ProjectId = p1, ImageUrl = "https://picsum.photos/id/13/800/600", AltText = "New irrigation system in action", IsPrimary = false, DisplayOrder = 2, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = 3, ProjectId = p2, ImageUrl = "https://picsum.photos/id/15/800/600", AltText = "Resort pathway with tropical plants", IsPrimary = true, DisplayOrder = 1, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = 4, ProjectId = p2, ImageUrl = "https://picsum.photos/id/17/800/600", AltText = "Resort poolside landscaping", IsPrimary = false, DisplayOrder = 2, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = 5, ProjectId = p3, ImageUrl = "https://picsum.photos/id/28/800/600", AltText = "Lush green residential lawn", IsPrimary = true, DisplayOrder = 1, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = 6, ProjectId = p4, ImageUrl = "https://picsum.photos/id/29/800/600", AltText = "Corporate office entrance greenery", IsPrimary = true, DisplayOrder = 1, CreatedDateTime = now, UpdatedDateTime = now },
+                new() { Id = 7, ProjectId = p5, ImageUrl = "https://picsum.photos/id/30/800/600", AltText = "Beautiful terrace garden setup", IsPrimary = true, DisplayOrder = 1, CreatedDateTime = now, UpdatedDateTime = now }
+            };
+            await context.ProjectImages.AddRangeAsync(projectImages);
+
+            // Project Services
+            var projectServices = new List<ProjectService>
+            {
+                new() { Id = 1, ProjectId = p1, ServiceId = 2, CreatedDateTime = now, UpdatedDateTime = now }, // Landscape Design
+                new() { Id = 2, ProjectId = p1, ServiceId = 3, CreatedDateTime = now, UpdatedDateTime = now }, // Lawn Care
+                new() { Id = 3, ProjectId = p1, ServiceId = 5, CreatedDateTime = now, UpdatedDateTime = now }, // Irrigation
+
+                new() { Id = 4, ProjectId = p2, ServiceId = 2, CreatedDateTime = now, UpdatedDateTime = now }, // Landscape Design
+                new() { Id = 5, ProjectId = p2, ServiceId = 4, CreatedDateTime = now, UpdatedDateTime = now }, // Tree & Plant Care
+                new() { Id = 6, ProjectId = p2, ServiceId = 1, CreatedDateTime = now, UpdatedDateTime = now }, // Garden Maintenance
+
+                new() { Id = 7, ProjectId = p3, ServiceId = 3, CreatedDateTime = now, UpdatedDateTime = now }, // Lawn Care
+
+                new() { Id = 8, ProjectId = p4, ServiceId = 2, CreatedDateTime = now, UpdatedDateTime = now }, // Landscape Design
+                new() { Id = 9, ProjectId = p4, ServiceId = 4, CreatedDateTime = now, UpdatedDateTime = now }, // Tree & Plant Care
+
+                new() { Id = 10, ProjectId = p5, ServiceId = 2, CreatedDateTime = now, UpdatedDateTime = now }, // Landscape Design
+                new() { Id = 11, ProjectId = p5, ServiceId = 5, CreatedDateTime = now, UpdatedDateTime = now }  // Irrigation
+            };
+            await context.ProjectServices.AddRangeAsync(projectServices);
+            
+            await context.SaveChangesAsync();
+        }
     }
 }

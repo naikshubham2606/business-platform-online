@@ -26,6 +26,8 @@ export const API_ENDPOINTS = {
     SERVICES:         `${API_BASE_URL}/api/public/services`,
     SERVICE_DETAILS:  (id: number | string) => `${API_BASE_URL}/api/public/services/${id}`,
     ABOUT_US:         `${API_BASE_URL}/api/public/about-us`,
+    PROJECTS:         `${API_BASE_URL}/api/public/projects`,
+    PROJECT_DETAILS:  (id: string) => `${API_BASE_URL}/api/public/projects/${id}`,
     PROPERTY_TYPES:   `${API_BASE_URL}/api/public/property-types`,
     WORK_AREA_TYPES:  `${API_BASE_URL}/api/public/work-area-types`,
     MEASUREMENT_UNITS:`${API_BASE_URL}/api/public/measurement-units`,
