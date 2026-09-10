@@ -28,7 +28,7 @@ import type {
  *
  * Never throws — always returns a resolved ApiResponse<T>.
  */
-async function publicFetch<T>(url: string): Promise<ApiResponse<T>> {
+export async function publicFetch<T>(url: string): Promise<ApiResponse<T>> {
   try {
     const response = await fetch(url, {
       method: 'GET',

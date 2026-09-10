@@ -1,30 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Trees, Leaf, Flower2, Pencil, Droplets, Wind } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
-import { TEMP_SERVICES } from '@/data/tempServices';
-
-// ---------------------------------------------------------------------------
-// Icon map — maps the string icon name in tempServices to a Lucide component
-// ---------------------------------------------------------------------------
-const ICON_MAP: Record<string, LucideIcon> = {
-  Trees,
-  Leaf,
-  Flower2,
-  Pencil,
-  Droplets,
-  Wind,
-};
+import { ArrowRight, Leaf } from 'lucide-react';
+import { useServicesList } from '@/hooks/useServices';
+import { ServiceCard } from '@/components/services/ServiceCard';
+import { ServiceDetailsModal } from '@/components/services/ServiceDetailsModal';
+import { ErrorState } from '@/components/common/ErrorState';
+import { Skeleton } from '@/components/common/LoadingSkeleton';
 
 /**
  * Services preview section.
- *
- * @temporary — data comes from TEMP_SERVICES in src/data/tempServices.ts.
- * When GET /api/public/services is available, replace the `TEMP_SERVICES`
- * import with a hook/context call. The card rendering code stays the same.
  */
 export function ServicesPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { data: services, loading, error, retry } = useServicesList();
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
 
   // Section reveal on scroll
   useEffect(() => {
@@ -44,7 +33,7 @@ export function ServicesPreview() {
   return (
     <section
       id="services"
-      className="w-full"
+      className="w-full relative"
       style={{
         background: 'var(--color-section-mid)',
         padding: 'var(--section-padding-y) var(--section-padding-x)',
@@ -80,72 +69,48 @@ export function ServicesPreview() {
           </p>
         </div>
 
-        {/* Service cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {TEMP_SERVICES.map((service, index) => {
-            const Icon = ICON_MAP[service.icon] ?? Leaf;
-            return (
-              <article
-                key={service.id}
-                className="group rounded-xl p-6 transition-all cursor-default"
-                style={{
-                  background: 'var(--color-surface)',
-                  border: `1px solid var(--color-border)`,
-                  boxShadow: 'var(--card-shadow)',
-                  animationDelay: `${index * 0.08}s`,
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'var(--card-shadow-hover)';
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'var(--card-shadow)';
-                  (e.currentTarget as HTMLElement).style.transform = '';
-                }}
-              >
-                {/* Icon */}
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors"
-                  style={{
-                    background: service.highlight
-                      ? 'var(--color-primary)'
-                      : 'var(--color-section-mid)',
-                  }}
-                >
-                  <Icon
-                    aria-hidden="true"
-                    style={{
-                      width: 22,
-                      height: 22,
-                      color: service.highlight
-                        ? '#fff'
-                        : 'var(--color-primary)',
-                    }}
-                  />
+        {/* State Handling */}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="rounded-xl overflow-hidden bg-white shadow-sm border border-black/5 flex flex-col h-full">
+                <Skeleton className="w-full h-48 rounded-none" />
+                <div className="p-6">
+                  <Skeleton className="h-6 w-3/4 mb-3" />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-5/6" />
                 </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-                <h3
-                  className="font-semibold mb-2"
-                  style={{
-                    color: 'var(--color-text)',
-                    fontSize: 'var(--text-lg)',
-                  }}
-                >
-                  {service.title}
-                </h3>
-                <p
-                  style={{
-                    color: 'var(--color-muted)',
-                    fontSize: 'var(--text-sm)',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {service.description}
-                </p>
-              </article>
-            );
-          })}
-        </div>
+        {error && (
+          <div className="bg-white rounded-2xl p-8 border border-black/5 shadow-sm max-w-2xl mx-auto">
+            <ErrorState message={error} onRetry={retry} />
+          </div>
+        )}
+
+        {!loading && !error && services && services.length === 0 && (
+           <div className="text-center py-12 rounded-2xl bg-white border border-black/5 shadow-sm max-w-2xl mx-auto">
+             <Leaf className="w-12 h-12 mx-auto mb-4 opacity-20" />
+             <p className="text-gray-500 font-medium">No services currently available.</p>
+           </div>
+        )}
+
+        {/* Service cards */}
+        {!loading && !error && services && services.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <ServiceCard 
+                key={service.id} 
+                service={service} 
+                index={index} 
+                onClick={setSelectedServiceId} 
+              />
+            ))}
+          </div>
+        )}
 
         {/* View all link */}
         <div className="text-center mt-10">
@@ -161,6 +126,14 @@ export function ServicesPreview() {
           </Link>
         </div>
       </div>
+
+      {/* Modal Overlay */}
+      {selectedServiceId !== null && (
+        <ServiceDetailsModal 
+          serviceId={selectedServiceId} 
+          onClose={() => setSelectedServiceId(null)} 
+        />
+      )}
     </section>
   );
 }

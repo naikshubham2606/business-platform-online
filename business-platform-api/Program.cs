@@ -16,14 +16,28 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddAutoMapper(cfg => 
 {
     cfg.AddProfile<business_platform_api.Mappings.BusinessProfileMappingProfile>();
+    cfg.AddProfile<business_platform_api.Mappings.ServiceMappingProfile>();
+    cfg.AddProfile<business_platform_api.Mappings.AboutUsMappingProfile>();
+    cfg.AddProfile<business_platform_api.Mappings.MasterDataMappingProfile>();
+    cfg.AddProfile<business_platform_api.Mappings.QuoteRequestMappingProfile>();
 });
 
 // Dependency Injection
 builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 builder.Services.AddScoped(typeof(IGenericCrudService<,,,,>), typeof(GenericCrudService<,,,,>));
+builder.Services.AddScoped(typeof(IMasterDataRepository<>), typeof(MasterDataRepository<>));
+
 builder.Services.AddScoped<IBusinessProfileRepository, BusinessProfileRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
+builder.Services.AddScoped<IQuoteRequestRepository, QuoteRequestRepository>();
+
 builder.Services.AddScoped<IBusinessProfileService, BusinessProfileService>();
 builder.Services.AddScoped<IContactDetailsService, ContactDetailsService>();
+builder.Services.AddScoped<IPublicServiceService, PublicServiceService>();
+builder.Services.AddScoped<IAboutUsService, AboutUsService>();
+builder.Services.AddScoped<IPublicMasterDataService, PublicMasterDataService>();
+builder.Services.AddScoped<IPublicQuoteRequestService, PublicQuoteRequestService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -42,11 +56,12 @@ using (var scope = app.Services.CreateScope())
         {
             context.Database.Migrate();
         }
+        await DbInitializer.SeedDataAsync(context);
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating the database.");
+        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
     }
 }
 

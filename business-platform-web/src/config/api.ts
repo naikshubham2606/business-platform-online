@@ -23,6 +23,15 @@ export const API_ENDPOINTS = {
     BUSINESS_PROFILE: `${API_BASE_URL}/api/public/business-profile`,
     BRANDING:         `${API_BASE_URL}/api/public/branding`,
     CONTACT:          `${API_BASE_URL}/api/public/contact`,
+    SERVICES:         `${API_BASE_URL}/api/public/services`,
+    SERVICE_DETAILS:  (id: number | string) => `${API_BASE_URL}/api/public/services/${id}`,
+    ABOUT_US:         `${API_BASE_URL}/api/public/about-us`,
+    PROPERTY_TYPES:   `${API_BASE_URL}/api/public/property-types`,
+    WORK_AREA_TYPES:  `${API_BASE_URL}/api/public/work-area-types`,
+    MEASUREMENT_UNITS:`${API_BASE_URL}/api/public/measurement-units`,
+    URGENCY_TYPES:    `${API_BASE_URL}/api/public/urgency-types`,
+    CONTACT_METHODS:  `${API_BASE_URL}/api/public/contact-methods`,
+    QUOTE_REQUESTS:   `${API_BASE_URL}/api/public/quote-requests`,
   },
 } as const;
 
